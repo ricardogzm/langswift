@@ -15,8 +15,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={`${manrope.className} min-h-screen antialiased`}>
+    <html lang="en" className={`${manrope.variable}`} suppressHydrationWarning>
+      <body className={`min-h-screen antialiased`}>
         <Providers>
           <Navbar />
           {children}
