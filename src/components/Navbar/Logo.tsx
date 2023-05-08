@@ -6,7 +6,9 @@ function Logo() {
   return (
     <>
       <FlowerLotus size={"2rem"} />
-      <span className="text-xl font-extrabold">Langswift</span>
+      <span className="hidden text-xl font-extrabold sm:inline-block">
+        Langswift
+      </span>
     </>
   );
 }
