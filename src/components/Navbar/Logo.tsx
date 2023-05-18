@@ -1,11 +1,11 @@
 "use client";
 
-import { FlowerLotus } from "@phosphor-icons/react";
+import { Hexagon } from "lucide-react";
 
 function Logo() {
   return (
     <>
-      <FlowerLotus size={"2rem"} />
+      <Hexagon size={"1.5rem"} strokeWidth={2.5} />
       <span className="hidden text-xl font-extrabold sm:inline-block">
         Langswift
       </span>
