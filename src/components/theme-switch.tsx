@@ -10,7 +10,6 @@ import { Button } from "./ui/button";
 
 import { useTheme } from "next-themes";
 import { useState, useEffect } from "react";
-// import { Sun, MoonStars, Monitor } from "@phosphor-icons/react";
 import { Sun, Moon, Monitor } from "lucide-react";
 
 export const ThemeSwitch = () => {

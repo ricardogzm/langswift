@@ -6,9 +6,9 @@ import { buttonVariants } from "@/components/ui/button";
 export default function Home() {
   return (
     <main className="container">
-      <section className="max-w-2xl space-y-4 pt-14 md:pt-24 lg:max-w-[50rem]">
-        <h1 className="text-4xl font-extrabold tracking-tighter md:text-5xl lg:text-6xl">
-          Breaking down language barriers with ease.
+      <section className="flex flex-col items-center gap-y-6 pt-14 text-center md:pt-32">
+        <h1 className="max-w-2xl bg-gradient-to-br from-indigo-500 to-pink-500 text-4xl font-extrabold tracking-tighter text-gradient sm:text-5xl md:text-6xl lg:max-w-[50rem] lg:text-7xl">
+          Breaking down language barriers with ease
         </h1>
         <p className="max-w-lg text-lg font-medium text-muted-foreground sm:text-xl">
           Language made accessible, communication made flawless. Unlock the

@@ -1,7 +1,7 @@
 import "./globals.css";
 import { Metadata } from "next";
-import { manrope } from "./fonts";
-import { Providers } from "./Providers";
+import { manrope } from "@/lib/fonts";
+import { Providers } from "@/lib/Providers";
 import Navbar from "@/components/Navbar/Navbar";
 
 export const metadata: Metadata = {
