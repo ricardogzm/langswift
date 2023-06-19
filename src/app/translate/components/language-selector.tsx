@@ -30,7 +30,7 @@ const languages = [
   { label: "Chinese", value: "zh" },
 ] as const;
 
-export function LanguageSelector({ ...props }: ButtonProps) {
+export default function LanguageSelector({ ...props }: ButtonProps) {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
 
@@ -42,19 +42,20 @@ export function LanguageSelector({ ...props }: ButtonProps) {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className={`w-[200px] justify-between ${props.className}`}
+          className={`justify-between sm:w-44 md:text-base ${props.className}`}
         >
           {value
             ? languages.find((language) => language.value === value)?.label
-            : "Select language..."}
-          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+            : "Language..."}
+          <ChevronsUpDown className="ml-2 hidden h-4 w-4 shrink-0 opacity-50 sm:inline" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0">
+
+      <PopoverContent className="w-44 p-0" align="end">
         <Command>
           <CommandInput placeholder="Search language..." />
           <CommandEmpty>No language found.</CommandEmpty>
-          <CommandGroup>
+          <CommandGroup className="h-48 overflow-auto md:h-auto">
             {languages.map((language) => (
               <CommandItem
                 key={language.value}

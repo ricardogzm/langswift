@@ -4,7 +4,7 @@ import ThemeSwitch from "../theme-switch";
 
 export function Navbar() {
   return (
-    <header className="sticky top-0 z-40 w-full border-b shadow-sm">
+    <header className="sticky top-0 z-40 w-full border-b bg-background/80 shadow-sm backdrop-blur">
       <div className="flex h-14 items-center justify-between px-4">
         {/* Links */}
         <div>

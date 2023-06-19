@@ -1,6 +1,7 @@
 import "./globals.css";
 import { Metadata } from "next";
 import { manrope } from "@/lib/fonts";
+import Footer from "@/components/footer";
 import { Providers } from "@/lib/Providers";
 import Navbar from "@/components/Navbar/Navbar";
 
@@ -20,6 +21,7 @@ export default function RootLayout({
         <Providers>
           <Navbar />
           {children}
+          <Footer />
         </Providers>
       </body>
     </html>
