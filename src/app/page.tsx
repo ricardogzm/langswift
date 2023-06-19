@@ -6,7 +6,7 @@ import { buttonVariants } from "@/components/ui/button";
 export default function Home() {
   return (
     <main className="container">
-      <section className="flex flex-col items-center gap-y-6 pt-14 text-center md:pt-32">
+      <section className="flex flex-col items-center gap-y-6 py-14 text-center md:py-32">
         <h1 className="max-w-2xl bg-gradient-to-br from-indigo-500 to-pink-500 text-4xl font-extrabold tracking-tighter text-gradient sm:text-5xl md:text-6xl lg:max-w-[50rem] lg:text-7xl">
           Breaking down language barriers with ease
         </h1>
@@ -15,7 +15,7 @@ export default function Home() {
           powers of translation and grammar enhancement with AI.
         </p>
         <div className="flex gap-x-4">
-          <Link href="/translate" className={cn(buttonVariants())}>
+          <Link href="/translate" className={cn(buttonVariants(), "px-8")}>
             Get started
           </Link>
           <Link
@@ -28,6 +28,11 @@ export default function Home() {
             View on GitHub
           </Link>
         </div>
+      </section>
+      <section className="py-14 md:py-24">
+        <h2 className="font text-center text-3xl font-extrabold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl">
+          Features
+        </h2>
       </section>
     </main>
   );

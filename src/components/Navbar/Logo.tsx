@@ -1,8 +1,6 @@
-"use client";
-
 import { Hexagon } from "lucide-react";
 
-function Logo() {
+export default function Logo() {
   return (
     <>
       <Hexagon size={"1.5rem"} strokeWidth={2.5} />
@@ -12,5 +10,3 @@ function Logo() {
     </>
   );
 }
-
-export default Logo;
