@@ -28,12 +28,7 @@ export const ThemeSwitch = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button
-          variant="ghost"
-          size="sm"
-          className="w-9 px-0"
-          aria-label="Toggle theme"
-        >
+        <Button variant="ghost" size="icon" aria-label="Toggle theme">
           {resolvedTheme === "light" ? <Sun /> : <Moon />}
         </Button>
       </DropdownMenuTrigger>
