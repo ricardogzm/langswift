@@ -35,8 +35,8 @@ dependencies:
     specifier: 18.2.6
     version: 18.2.6
   ai:
-    specifier: ^2.1.13
-    version: 2.1.13(react@18.2.0)(svelte@3.59.2)(vue@3.3.4)
+    specifier: ^2.1.10
+    version: 2.1.10(react@18.2.0)(svelte@3.59.2)(vue@3.3.4)
   autoprefixer:
     specifier: 10.4.14
     version: 10.4.14(postcss@8.4.24)
@@ -1431,8 +1431,8 @@ packages:
     engines: {node: '>=0.4.0'}
     hasBin: true
 
-  /ai@2.1.13(react@18.2.0)(svelte@3.59.2)(vue@3.3.4):
-    resolution: {integrity: sha512-huPgaFymrTIQcF/S5t02ohTXCtUrMVbPrLcxEB2hc7oKYM8dajfd0y6iOIIuI1S+d+JFbs3CrkeUX30VRot4/Q==}
+  /ai@2.1.10(react@18.2.0)(svelte@3.59.2)(vue@3.3.4):
+    resolution: {integrity: sha512-/XWM3qHacUtm2jqgm5eHzUSQe/FTyfDGLls8dDULPGXfgKvsdjMt1isaiMQ8eanIMS2iXAZcuBwUoobomOWjhA==}
     engines: {node: '>=14.6'}
     peerDependencies:
       react: ^18.2.0

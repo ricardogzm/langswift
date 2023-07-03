@@ -1,26 +1,40 @@
-"use client";
+import { useEffect, useRef, useState } from "react";
+import { MessagesSquare, XIcon, SquareIcon } from "lucide-react";
 
-import { useEffect, useRef } from "react";
+import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+
+import { cn } from "@/lib/utils";
+import { useContext } from "react";
+import { MAX_CHARACTERS } from "@/lib/constants/general";
+import { TranslationContext } from "@/contexts/translation-context";
 
 export default function PromptInput() {
+  const [inputText, setInputText] = useState("");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  const { complete, stop, isLoading } = useContext(TranslationContext);
 
   function resizeTextarea(event?: React.ChangeEvent<HTMLTextAreaElement>) {
     const textarea = textareaRef.current;
 
     if (textarea) {
-      const isMd = window.matchMedia("(min-width: 768px)").matches;
-
-      // Only resize on larger screens
-      if (!isMd) {
-        textarea.removeAttribute("style");
-        return;
-      }
-
       textarea.style.height = "auto";
-      textarea.style.height = textarea.scrollHeight + 2 + "px";
+      textarea.style.height = textarea.scrollHeight + "px";
     }
+  }
+
+  function handleSubmitText() {
+    const textarea = textareaRef.current;
+
+    if (!textarea) return;
+
+    complete(textareaRef.current.value);
   }
 
   useEffect(() => {
@@ -36,15 +50,83 @@ export default function PromptInput() {
   }, []);
 
   return (
-    <Textarea
-      className="min-h-[9rem] resize-none text-sm md:min-h-[20rem] md:w-1/2 md:text-base lg:text-lg"
-      ref={textareaRef}
-      onChange={resizeTextarea}
-      onFocus={resizeTextarea}
-      onBlur={resizeTextarea}
-      autoComplete="off"
-      autoCorrect="off"
-      placeholder="Type or paste here your text to translate it."
-    />
+    <div className="relative rounded-md border md:w-1/2">
+      <Textarea
+        variant="ringless"
+        className="min-h-[9rem] resize-none rounded-none border-0 pr-14 text-base md:min-h-[20rem] md:py-3 md:pl-4 lg:text-lg"
+        ref={textareaRef}
+        value={inputText}
+        onChange={(e) => {
+          setInputText(e.target.value);
+          resizeTextarea(e);
+        }}
+        autoComplete="off"
+        autoCorrect="off"
+        placeholder="Type or paste here your text to translate it."
+      />
+
+      {/* Clear button */}
+      {inputText.length > 0 && (
+        <Button
+          size="icon"
+          variant="ghost"
+          className="absolute right-2 top-2 z-10"
+          onClick={() => {
+            setInputText("");
+            stop();
+          }}
+        >
+          <XIcon />
+        </Button>
+      )}
+
+      {/* Input toolbar */}
+      <div className="flex items-center justify-between p-2">
+        {/* Character count */}
+        <div
+          className={cn(
+            "ml-2 text-base text-destructive",
+            inputText.length > MAX_CHARACTERS
+              ? "text-red-400"
+              : "text-muted-foreground"
+          )}
+        >
+          {inputText.length} / {MAX_CHARACTERS} characters
+        </div>
+
+        {/* Translation and stop button */}
+        {isLoading ? (
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                size="icon"
+                onClick={(e) => stop()}
+                variant={"destructive"}
+                aria-label="Stop translation"
+              >
+                <SquareIcon />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent sideOffset={8}>Stop translation</TooltipContent>
+          </Tooltip>
+        ) : (
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                size="icon"
+                onClick={(e) => handleSubmitText()}
+                aria-label="Translate"
+                disabled={
+                  inputText.length === 0 || inputText.length > MAX_CHARACTERS
+                }
+              >
+                <MessagesSquare />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent sideOffset={8}>Translate</TooltipContent>
+          </Tooltip>
+        )}
+      </div>
+    </div>
   );
 }

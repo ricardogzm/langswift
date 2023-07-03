@@ -1,7 +1,6 @@
-"use client";
-
-import { useState } from "react";
-import { Check, ChevronsUpDown } from "lucide-react";
+import { useEffect, useState } from "react";
+import languages from "@/lib/constants/languages";
+import { CheckIcon, ChevronsUpDownIcon } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Button, ButtonProps } from "@/components/ui/button";
@@ -17,22 +16,30 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { LanguageType } from "@/lib/constants/general";
 
-const languages = [
-  { label: "English", value: "en" },
-  { label: "French", value: "fr" },
-  { label: "German", value: "de" },
-  { label: "Spanish", value: "es" },
-  { label: "Portuguese", value: "pt" },
-  { label: "Russian", value: "ru" },
-  { label: "Japanese", value: "ja" },
-  { label: "Korean", value: "ko" },
-  { label: "Chinese", value: "zh" },
-] as const;
+interface LanguageSelectorProps extends ButtonProps {
+  languageType: LanguageType;
+  languageKey: string;
+  onLanguageKeyChange: (key: string) => void;
+}
 
-export default function LanguageSelector({ ...props }: ButtonProps) {
+export default function LanguageSelector({
+  languageType,
+  languageKey,
+  onLanguageKeyChange,
+  ...props
+}: LanguageSelectorProps) {
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState("");
+  const selectedLanguage = languages.get(languageKey);
+
+  useEffect(() => {
+    if (!languageKey) {
+      return;
+    }
+
+    localStorage.setItem(languageType, languageKey);
+  }, [languageKey, languageType]);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -42,12 +49,13 @@ export default function LanguageSelector({ ...props }: ButtonProps) {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className={`justify-between sm:w-44 md:text-base ${props.className}`}
+          className={cn(
+            "justify-between sm:w-44 md:text-base",
+            props.className
+          )}
         >
-          {value
-            ? languages.find((language) => language.value === value)?.label
-            : "Language..."}
-          <ChevronsUpDown className="ml-2 hidden h-4 w-4 shrink-0 opacity-50 sm:inline" />
+          {selectedLanguage || "Language..."}
+          <ChevronsUpDownIcon className="ml-2 hidden h-4 w-4 shrink-0 opacity-50 sm:inline" />
         </Button>
       </PopoverTrigger>
 
@@ -55,23 +63,23 @@ export default function LanguageSelector({ ...props }: ButtonProps) {
         <Command>
           <CommandInput placeholder="Search language..." />
           <CommandEmpty>No language found.</CommandEmpty>
-          <CommandGroup className="h-48 overflow-auto md:h-auto">
-            {languages.map((language) => (
+          <CommandGroup className="h-auto max-h-48 overflow-auto md:max-h-72 lg:max-h-96">
+            {Array.from(languages).map(([key, language]) => (
               <CommandItem
-                key={language.value}
-                value={language.value}
-                onSelect={(currentValue) => {
-                  setValue(currentValue);
+                key={key}
+                value={key}
+                onSelect={(currentKey) => {
+                  onLanguageKeyChange(currentKey);
                   setOpen(false);
                 }}
               >
-                <Check
+                <CheckIcon
                   className={cn(
                     "mr-2 h-4 w-4",
-                    value === language.value ? "opacity-100" : "opacity-0"
+                    key === languageKey ? "opacity-100" : "opacity-0"
                   )}
                 />
-                {language.label}
+                {language}
               </CommandItem>
             ))}
           </CommandGroup>
