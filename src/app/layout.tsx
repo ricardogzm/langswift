@@ -2,8 +2,9 @@ import "./globals.css";
 import { Metadata } from "next";
 import { manrope } from "@/lib/fonts";
 import Footer from "@/components/footer";
-import { Providers } from "@/lib/Providers";
+import { Providers } from "@/lib/providers";
 import Navbar from "@/components/Navbar/Navbar";
+import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
   title: "Langswift",
@@ -23,6 +24,7 @@ export default function RootLayout({
           {children}
           <Footer />
         </Providers>
+        <Toaster />
       </body>
     </html>
   );
