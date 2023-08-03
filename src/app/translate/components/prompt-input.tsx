@@ -10,15 +10,15 @@ import {
 } from "@/components/ui/tooltip";
 
 import { cn } from "@/lib/utils";
-import { useContext } from "react";
 import { MAX_CHARACTERS } from "@/lib/constants/general";
-import { TranslationContext } from "@/contexts/translation-context";
+
+import useTranslation from "@/hooks/use-translation";
 
 export default function PromptInput() {
   const [inputText, setInputText] = useState("");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  const { complete, stop, isLoading } = useContext(TranslationContext);
+  const { translate, stopTranslation, isLoading } = useTranslation();
 
   function resizeTextarea(event?: React.ChangeEvent<HTMLTextAreaElement>) {
     const textarea = textareaRef.current;
@@ -34,7 +34,7 @@ export default function PromptInput() {
 
     if (!textarea) return;
 
-    complete(textareaRef.current.value);
+    translate(textarea.value);
   }
 
   useEffect(() => {
@@ -73,7 +73,7 @@ export default function PromptInput() {
           className="absolute right-2 top-2 z-10"
           onClick={() => {
             setInputText("");
-            stop();
+            stopTranslation();
           }}
         >
           <XIcon />

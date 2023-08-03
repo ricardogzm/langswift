@@ -1,7 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useCompletion } from "ai/react";
 import { ArrowLeftRight } from "lucide-react";
 import { LanguageType } from "@/lib/constants/general";
 
@@ -10,29 +8,17 @@ import TranslationBox from "./translation-box";
 import LanguageSelector from "./language-selector";
 
 import { Button } from "@/components/ui/button";
-import { useToast } from "@/components/ui/use-toast";
 
-import { TranslationContext } from "@/contexts/translation-context";
+import { useAtom } from "jotai";
+import { fromLanguageAtom, toLanguageAtom } from "@/atoms/language-atoms";
+import useTranslation from "@/hooks/use-translation";
+
+import ClientOnly from "@/components/client-only";
 
 export default function TranslationSection() {
-  const { toast } = useToast();
-  const [fromLanguage, setFromLanguage] = useState("");
-  const [toLanguage, setToLanguage] = useState("");
-
-  const { complete, completion, isLoading, stop } = useCompletion({
-    api: "/api/translate",
-    body: {
-      fromLanguage,
-      toLanguage,
-    },
-    onError: (error) => {
-      toast({
-        title: "Error",
-        description: error.message,
-        duration: 3000,
-      });
-    },
-  });
+  const [fromLanguage, setFromLanguage] = useAtom(fromLanguageAtom);
+  const [toLanguage, setToLanguage] = useAtom(toLanguageAtom);
+  const { isLoading } = useTranslation();
 
   function swapLanguages() {
     const previousFromLanguage = fromLanguage;
@@ -41,50 +27,37 @@ export default function TranslationSection() {
     setToLanguage(previousFromLanguage);
   }
 
-  useEffect(() => {
-    const storageFromLanguage = localStorage.getItem("fromLanguage");
-    const storageToLanguage = localStorage.getItem("toLanguage");
-
-    if (storageFromLanguage) {
-      setFromLanguage(storageFromLanguage);
-    }
-
-    if (storageToLanguage) {
-      setToLanguage(storageToLanguage);
-    }
-  }, []);
-
   return (
-    <TranslationContext.Provider
-      value={{ complete, completion, isLoading, stop }}
-    >
-      <section className="pt-4 sm:pt-8 md:pt-10 lg:pt-12">
-        <h1 className="pb-4 text-3xl font-extrabold tracking-tighter sm:text-4xl md:text-5xl">
-          Translate
-        </h1>
-        <div className="space-y-3">
-          {/* Language configuration header */}
-          <div className="flex items-center">
-            {/* From language */}
-            <div className="flex-1">
+    <section className="pt-4 sm:pt-8 md:pt-10 lg:pt-12">
+      <h1 className="pb-4 text-3xl font-extrabold tracking-tighter sm:text-4xl md:text-5xl">
+        Translate
+      </h1>
+      <div className="space-y-3">
+        {/* Language configuration header */}
+        <div className="flex items-center">
+          {/* From language */}
+          <div className="flex-1">
+            <ClientOnly>
               <LanguageSelector
                 languageType={LanguageType.From}
                 languageKey={fromLanguage}
                 onLanguageKeyChange={setFromLanguage}
                 aria-label="From language"
               />
-            </div>
-            {/* Swap button */}
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={(e) => swapLanguages()}
-              aria-label="Swap languages"
-            >
-              <ArrowLeftRight />
-            </Button>
-            {/* To language */}
-            <div className="flex-1">
+            </ClientOnly>
+          </div>
+          {/* Swap button */}
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={(e) => swapLanguages()}
+            aria-label="Swap languages"
+          >
+            <ArrowLeftRight />
+          </Button>
+          {/* To language */}
+          <div className="flex-1">
+            <ClientOnly>
               <LanguageSelector
                 className="ml-2"
                 languageType={LanguageType.To}
@@ -92,17 +65,17 @@ export default function TranslationSection() {
                 onLanguageKeyChange={setToLanguage}
                 aria-label="To language"
               />
-            </div>
+            </ClientOnly>
           </div>
-
-          {/* Text boxes */}
-          <div className="flex flex-col gap-4 md:flex-row">
-            <PromptInput />
-            <TranslationBox />
-          </div>
-          <p>Current state: {isLoading ? "Generating..." : "Idle"}</p>
         </div>
-      </section>
-    </TranslationContext.Provider>
+
+        {/* Text boxes */}
+        <div className="flex flex-col gap-4 md:flex-row">
+          <PromptInput />
+          <TranslationBox />
+        </div>
+        <p>Current state: {isLoading ? "Generating..." : "Idle"}</p>
+      </div>
+    </section>
   );
 }

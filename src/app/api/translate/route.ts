@@ -2,7 +2,9 @@ import { env } from "@/env.mjs";
 import { NextResponse } from "next/server";
 import { OpenAIStream, StreamingTextResponse } from "ai";
 import { Configuration, OpenAIApi } from "openai-edge";
+
 import { translationDataSchema } from "@/lib/schemas/translation-data";
+import { fromZodError } from "zod-validation-error";
 
 export const runtime = "edge";
 
@@ -16,12 +18,11 @@ export async function POST(req: Request) {
   const result = translationDataSchema.safeParse(json);
 
   if (!result.success) {
+    const validationError = fromZodError(result.error);
+
     return NextResponse.json(
       {
-        issues: result.error.issues.map((issue) => ({
-          message: issue.message,
-          path: issue.path,
-        })),
+        error: validationError.message,
       },
       { status: 400 }
     );
