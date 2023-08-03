@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import languages from "@/lib/constants/languages";
 import { CheckIcon, ChevronsUpDownIcon } from "lucide-react";
 
@@ -10,6 +10,7 @@ import {
   CommandGroup,
   CommandInput,
   CommandItem,
+  CommandList,
 } from "@/components/ui/command";
 import {
   Popover,
@@ -33,14 +34,6 @@ export default function LanguageSelector({
   const [open, setOpen] = useState(false);
   const selectedLanguage = languages.get(languageKey);
 
-  useEffect(() => {
-    if (!languageKey) {
-      return;
-    }
-
-    localStorage.setItem(languageType, languageKey);
-  }, [languageKey, languageType]);
-
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
@@ -60,29 +53,38 @@ export default function LanguageSelector({
       </PopoverTrigger>
 
       <PopoverContent className="w-44 p-0" align="end">
-        <Command>
+        <Command
+          filter={(item, query) => {
+            if (item.startsWith(query)) {
+              return 1;
+            }
+            return 0;
+          }}
+        >
           <CommandInput placeholder="Search language..." />
-          <CommandEmpty>No language found.</CommandEmpty>
-          <CommandGroup className="h-auto max-h-48 overflow-auto md:max-h-72 lg:max-h-96">
-            {Array.from(languages).map(([key, language]) => (
-              <CommandItem
-                key={key}
-                value={key}
-                onSelect={(currentKey) => {
-                  onLanguageKeyChange(currentKey);
-                  setOpen(false);
-                }}
-              >
-                <CheckIcon
-                  className={cn(
-                    "mr-2 h-4 w-4",
-                    key === languageKey ? "opacity-100" : "opacity-0"
-                  )}
-                />
-                {language}
-              </CommandItem>
-            ))}
-          </CommandGroup>
+          <CommandList className="h-auto max-h-48 overflow-auto md:max-h-72 lg:max-h-96">
+            <CommandEmpty>No language found.</CommandEmpty>
+            <CommandGroup>
+              {Array.from(languages).map(([key, language]) => (
+                <CommandItem
+                  key={key}
+                  value={key}
+                  onSelect={(currentKey) => {
+                    onLanguageKeyChange(currentKey);
+                    setOpen(false);
+                  }}
+                >
+                  <CheckIcon
+                    className={cn(
+                      "mr-2 h-4 w-4",
+                      key === languageKey ? "opacity-100" : "opacity-0"
+                    )}
+                  />
+                  {language}
+                </CommandItem>
+              ))}
+            </CommandGroup>
+          </CommandList>
         </Command>
       </PopoverContent>
     </Popover>
