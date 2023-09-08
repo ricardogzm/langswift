@@ -8,11 +8,11 @@ export const siteConfig = {
     github: "https://github.com/ricardogzm",
   },
   openGraph: {
+    type: "website",
+    siteName: "Langswift",
     images: [
       {
-        siteName: "Langswift",
         url: "/og.png",
-        type: "website",
       },
     ],
   },
