@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 314 314">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #fff;
+      }
+    </style>
+  </defs>
+  <g id="Logo">
+    <rect id="Background" width="314" height="314"/>
+    <g>
+      <g id="L">
+        <path class="cls-1" d="m34,280V34h42v204h204v42H34Z"/>
+      </g>
+      <rect id="Square" class="cls-1" x="110" y="34" width="170" height="170"/>
+    </g>
+  </g>
+</svg>
