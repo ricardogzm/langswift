@@ -1,3 +1,20 @@
+import { Metadata } from "next";
+
+type OpenGraph = Metadata["openGraph"];
+
+const openGraph: OpenGraph = {
+  type: "website",
+  siteName: "Langswift",
+  images: [
+    {
+      url: "/og.png",
+      width: 1200,
+      height: 630,
+      alt: "Langswift",
+    },
+  ],
+};
+
 export const siteConfig = {
   name: "Langswift",
   description:
@@ -7,15 +24,7 @@ export const siteConfig = {
   links: {
     github: "https://github.com/ricardogzm",
   },
-  openGraph: {
-    type: "website",
-    siteName: "Langswift",
-    images: [
-      {
-        url: "/og.png",
-      },
-    ],
-  },
+  openGraph,
 };
 
 export type SiteConfig = typeof siteConfig;
