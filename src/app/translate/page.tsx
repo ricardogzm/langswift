@@ -1,4 +1,18 @@
+import { Metadata } from "next";
+
+import { siteConfig } from "@/config/site";
 import TranslationSection from "./components/translation-section";
+
+export const metadata: Metadata = {
+  title: "Translation",
+  description: "Translate text from one language to another.",
+  openGraph: {
+    ...siteConfig.openGraph,
+    title: "Translation",
+    description: "Translate text from one language to another.",
+    url: `${siteConfig.url}/translate`,
+  },
+};
 
 export default function TranslationPage() {
   return (

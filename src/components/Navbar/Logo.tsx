@@ -1,10 +1,10 @@
-import { Hexagon } from "lucide-react";
+import Langswift from "./langswift";
 
 export default function Logo() {
   return (
     <>
-      <Hexagon size={"1.5rem"} strokeWidth={2.5} />
-      <span className="hidden text-xl font-extrabold sm:inline-block">
+      <Langswift className="h-6 w-6" />
+      <span className="hidden text-xl font-bold sm:inline-block">
         Langswift
       </span>
     </>
