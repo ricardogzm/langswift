@@ -23,6 +23,9 @@ export const metadata: Metadata = {
     description: siteConfig.description,
     url: siteConfig.url,
   },
+  twitter: {
+    card: "summary_large_image",
+  },
 };
 
 export default function RootLayout({
