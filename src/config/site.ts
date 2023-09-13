@@ -3,7 +3,9 @@ import { Metadata } from "next";
 type OpenGraph = Metadata["openGraph"];
 
 const PROJECT_ENV = process.env.VERCEL_ENV ?? "development";
-const PROJECT_URL = process.env.VERCEL_URL ?? "http://localhost:3000";
+const PROJECT_URL = process.env.VERCEL_URL
+  ? `https://${process.env.VERCEL_URL}`
+  : "http://localhost:3000";
 
 const baseURL =
   PROJECT_ENV === "production" ? "https://langswift.com" : PROJECT_URL;
