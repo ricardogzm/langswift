@@ -1,17 +1,18 @@
 import { env } from "@/env.mjs";
-import { NextResponse } from "next/server";
-import { OpenAIStream, StreamingTextResponse } from "ai";
-import { Configuration, OpenAIApi } from "openai-edge";
 
-import { translationDataSchema } from "@/lib/schemas/translation-data";
+import { NextResponse } from "next/server";
+
+import OpenAI from "openai";
+import { OpenAIStream, StreamingTextResponse } from "ai";
+
 import { fromZodError } from "zod-validation-error";
+import { translationDataSchema } from "@/lib/schemas/translation-data";
 
 export const runtime = "edge";
 
-const config = new Configuration({
+const openai = new OpenAI({
   apiKey: env.OPENAI_API_KEY,
 });
-const openai = new OpenAIApi(config);
 
 export async function POST(req: Request) {
   const json = await req.json();
@@ -24,16 +25,21 @@ export async function POST(req: Request) {
       {
         error: validationError.message,
       },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
   const { prompt, fromLanguage, toLanguage } = result.data;
 
-  const finalPrompt = `Given the following text in ${fromLanguage}, translate it to ${toLanguage}. Only respond with the translated text. Text content:\n\n${prompt}\n\nTranslation:\n`;
+  const finalPrompt = `Given the following text in ${fromLanguage}, translate it to ${toLanguage}. Only respond with the translated text.
+  Text content:
+  ${prompt}
+  
+  Translation:
+  `;
 
   // Create a chat completion using OpenAIApi
-  const response = await openai.createChatCompletion({
+  const response = await openai.chat.completions.create({
     model: "gpt-3.5-turbo",
     stream: true,
     messages: [
