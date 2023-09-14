@@ -36,7 +36,7 @@ export default function TranslationBox() {
 
   return (
     <div className="relative min-h-[9rem] rounded-md border md:min-h-[20rem] md:w-1/2">
-      <div className="break-words px-3 py-2 pr-14 text-base md:py-3 md:pl-4 lg:text-lg">
+      <div className="whitespace-pre-line break-words px-3 py-2 pr-14 text-base md:py-3 md:pl-4 lg:text-lg">
         {translation}
       </div>
 
