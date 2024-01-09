@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useEffect } from "react";
 import { useDebouncedCallback } from "use-debounce";
 import { ClipboardCopyIcon, ClipboardCheckIcon } from "lucide-react";
 
@@ -11,18 +13,24 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 
 import useTranslation from "@/hooks/use-translation";
+import { INPUT_CLEARED } from "@/lib/constants/events";
 
-export default function TranslationBox() {
+import { useCopyToClipboard } from "@uidotdev/usehooks";
+import { TranslationSkeleton } from "./translation-skeleton";
+
+export function TranslationBox() {
+  const { translation, setTranslation, isLoading } = useTranslation();
+
   const { toast } = useToast();
-
-  const { translation } = useTranslation();
+  const [, copyToClipboard] = useCopyToClipboard();
   const [isCopied, setIsCopied] = React.useState(false);
   const debouncedCopyReset = useDebouncedCallback(() => {
     setIsCopied(false);
   }, 3000);
 
-  function handleCopyToClipboard() {
-    navigator.clipboard.writeText(translation).then(() => {
+  async function handleCopyToClipboard() {
+    try {
+      await copyToClipboard(translation);
       setIsCopied(true);
       debouncedCopyReset();
 
@@ -31,13 +39,34 @@ export default function TranslationBox() {
         description: "The translation has been copied to your clipboard.",
         duration: 3000,
       });
-    });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to copy to clipboard.",
+        duration: 3000,
+      });
+    }
   }
+
+  useEffect(() => {
+    function handleInputClear() {
+      setTranslation("");
+    }
+
+    window.addEventListener(INPUT_CLEARED, handleInputClear);
+    return () => {
+      window.removeEventListener(INPUT_CLEARED, handleInputClear);
+    };
+  }, [setTranslation]);
 
   return (
     <div className="relative min-h-[9rem] rounded-md border md:min-h-[20rem] md:w-1/2">
-      <div className="whitespace-pre-line break-words px-3 py-2 pr-14 text-base md:py-3 md:pl-4 lg:text-lg">
-        {translation}
+      <div className="whitespace-pre-line break-words px-3 py-2 pr-14 text-base lg:py-3 lg:pl-4 lg:text-lg">
+        {isLoading && translation === "" ? (
+          <TranslationSkeleton />
+        ) : (
+          translation
+        )}
       </div>
 
       {/* Copy to clipboard button */}

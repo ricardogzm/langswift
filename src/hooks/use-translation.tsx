@@ -32,6 +32,7 @@ export default function useTranslation() {
   return {
     translate: completionProperties.complete,
     translation: completionProperties.completion,
+    setTranslation: completionProperties.setCompletion,
     isLoading: completionProperties.isLoading,
     stopTranslation: completionProperties.stop,
   };
