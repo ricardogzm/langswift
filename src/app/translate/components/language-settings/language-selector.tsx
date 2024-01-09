@@ -17,16 +17,13 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { LanguageType } from "@/lib/constants/general";
 
 interface LanguageSelectorProps extends ButtonProps {
-  languageType: LanguageType;
   languageKey: string;
   onLanguageKeyChange: (key: string) => void;
 }
 
 export default function LanguageSelector({
-  languageType,
   languageKey,
   onLanguageKeyChange,
   ...props
@@ -43,7 +40,7 @@ export default function LanguageSelector({
           role="combobox"
           aria-expanded={open}
           className={cn(
-            "justify-between sm:w-44 md:text-base",
+            "justify-between sm:w-48 md:text-base",
             props.className
           )}
         >
@@ -52,7 +49,7 @@ export default function LanguageSelector({
         </Button>
       </PopoverTrigger>
 
-      <PopoverContent className="w-44 p-0" align="end">
+      <PopoverContent className="w-48 p-0" align="end">
         <Command
           filter={(item, query) => {
             if (item.startsWith(query)) {

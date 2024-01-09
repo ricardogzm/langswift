@@ -1,0 +1,3 @@
+const INPUT_CLEARED = "INPUT_CLEARED";
+
+export { INPUT_CLEARED };
