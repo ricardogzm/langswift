@@ -18,6 +18,7 @@ import useTranslation from "@/hooks/use-translation";
 
 import { INPUT_CLEARED } from "@/lib/constants/events";
 import { MAX_CHARACTERS } from "@/lib/constants/general";
+import { cn } from "@/lib/utils";
 
 export function TextInput() {
   const [inputText, setInputText] = useAtom(inputAtom);
@@ -64,7 +65,12 @@ export function TextInput() {
   }, []);
 
   return (
-    <div className="relative rounded-md border md:w-1/2">
+    <div
+      className={cn(
+        "relative rounded-md border border-input md:w-1/2",
+        "ring-offset-background focus-within:outline-none focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2"
+      )}
+    >
       <Textarea
         variant="ringless"
         className="min-h-[9rem] resize-none rounded-none border-0 pr-14 text-base md:min-h-[20rem] lg:py-3 lg:pl-4 lg:text-lg"

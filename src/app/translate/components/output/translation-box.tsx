@@ -60,7 +60,7 @@ export function TranslationBox() {
   }, [setTranslation]);
 
   return (
-    <div className="relative min-h-[9rem] rounded-md border md:min-h-[20rem] md:w-1/2">
+    <div className="relative min-h-[9rem] rounded-md border border-input md:min-h-[20rem] md:w-1/2">
       <div className="whitespace-pre-line break-words px-3 py-2 pr-14 text-base lg:py-3 lg:pl-4 lg:text-lg">
         {isLoading && translation === "" ? (
           <TranslationSkeleton />

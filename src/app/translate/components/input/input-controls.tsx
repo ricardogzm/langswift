@@ -76,7 +76,7 @@ export function InputControls() {
           </TooltipTrigger>
           <TooltipContent sideOffset={8}>
             Translate
-            <Kbd className="ml-2">
+            <Kbd size="small" className="ml-2">
               <span>{isMac ? "⌘" : "Ctrl"}</span>
               <span>Enter</span>
             </Kbd>

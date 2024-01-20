@@ -1,6 +1,19 @@
+// @ts-check
+
 import "./src/env.mjs";
 
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
+const nextConfig = {
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "raw.githubusercontent.com",
+        port: "",
+        pathname: "/pmndrs/jotai/**",
+      },
+    ],
+  },
+};
 
 export default nextConfig;
